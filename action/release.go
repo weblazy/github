@@ -10,8 +10,7 @@ import (
 func List(c *cli.Context) error {
 	token := c.String("token")
 	fmt.Printf("token:%s\n", token)
-	controller.List(token)
-	return nil
+	return controller.List(token)
 }
 
 func Add(c *cli.Context) error {
@@ -20,20 +19,32 @@ func Add(c *cli.Context) error {
 	branch := c.String("branch")
 	token := c.String("token")
 	fmt.Printf("tag:%s body:%s branch:%s token:%s\n", tag, body, branch, token)
-	controller.Add(&controller.AddReq{
+	return controller.Add(&controller.AddReq{
 		Tag:    tag,
 		Body:   body,
 		Branch: branch,
 	}, token)
-	return nil
 }
 
 func Edit(c *cli.Context) error {
-	fmt.Println("removed task template: ", c.Args().First())
-	return nil
+	id := c.String("id")
+	tag := c.String("tag")
+	body := c.String("desc")
+	branch := c.String("branch")
+	token := c.String("token")
+	fmt.Printf("tag:%s body:%s branch:%s token:%s\n", tag, body, branch, token)
+	return controller.Edit(&controller.EditReq{
+		Id:     id,
+		Tag:    tag,
+		Body:   body,
+		Branch: branch,
+	}, token)
 }
 
 func Delete(c *cli.Context) error {
-	fmt.Println("removed task template: ", c.Args().First())
-	return nil
+	id := c.String("id")
+	token := c.String("token")
+	return controller.Delete(&controller.DeleteReq{
+		Id: id,
+	}, token)
 }
